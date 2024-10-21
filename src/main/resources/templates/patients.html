@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        layout:decorate="template1"
+
+    >
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div layout:fragment="content-table">
+        <div class="container m-2">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="h3">Liste des patients</h3>
+            </div>
+            <div class="card-body">
+                <form method="get" th:action="@{index}">
+                    <label>keyword</label>
+                    <input type="text" name="keyword" th:value="${keyword}">
+                    <button type="submit" class="btn btn-primary">chercher</button>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr> <th>ID</th><th>Name</th><th>Malade?</th><th>Date</th><th>Score</th><th sec:authorize="hasAuthority('ADMIN')">options</th></tr>
+                    </thead>
+                    <tbody >
+                    <tr sec:authorize="isAuthenticated()" th:each="p:${patients}">
+                        <td th:text="${p.getId()}"></td>
+                        <td th:text="${p.getName()}"></td>
+                        <td th:text="${p.isMalade()}"></td>
+                        <td th:text="${p.getDate()}"></td>
+                        <td th:text="${p.getScore()}"></td>
+                        <td sec:authorize="hasAuthority('ADMIN')"> <a class="btn btn-danger" onclick="return confirm('are you sure ?')" th:href="@{/admin/delete(id=${p.getId()},page=${currentPage},keyword=${keyword})}">delete</a>
+                        <a  class="btn btn-success mx-1-" th:href="@{/admin/edit(id=${p.getId()}, page=${currentPage}, keyword=${keyword})}">edit</a> </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="card-footer" >
+                <ul class="nav nav-pills">
+                    <li  th:each="page,content:${pages}" > <a th:class="${content.index==currentPage?'btn btn-info mx-2':'btn btn-outline-info mx-2'}"
+                                                              th:text="${content.index}"
+                                                              th:href="@{index(page=${content.index},keyword=${keyword})}"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>

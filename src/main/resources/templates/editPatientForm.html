@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div layout:fragment="edit-patient-form">
+    <div class="container m-4">
+        <form method="post" th:action="@{editPatient(page=${page},keyword=${keyword})}">
+            <div class="form-group m-2">
+                <input type="hidden" class="form-control" name="id" th:value="${patient.id}" >
+            </div>
+            <div class="form-group m-2">
+                <label for="formGroupExampleInput">name</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name here" name="name" th:value="${patient.name}" >
+                <span class="text-danger" th:errors="${patient.name}"></span>
+            </div>
+            <div class="form-group m-2">
+                <label for="formGroupExampleInput2">score</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="score here" name="score" th:value="${patient.score}">
+                <span class="text-danger" th:errors="${patient.score}"></span>
+            </div>
+            <div class="form-group m-2">
+                <label for="formGroupExampleInput2">date</label>
+                <input type="date" class="form-control" id="formGroupExampleInput3"  name="date" th:value="${patient.date}">
+                <span class="text-danger" th:errors="${patient.date}"></span>
+
+            </div>
+            <fieldset class="form-group m-2">
+                <div class="row">
+                    <legend class="col-form-label col-sm-2 pt-0">malade ?: </legend>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="malade" id="gridRadios1" th:checked="${patient.malade}" >
+                            <span class="text-danger"  th:errors="${patient.malade}"></span>
+
+                            <label class="form-check-label" for="gridRadios1">
+                                oui
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group m-2">
+                <button type="submit" class="btn btn-primary" id="btn-submit" >edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
